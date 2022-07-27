@@ -46,7 +46,7 @@ pipeline {
 
     stage("Docker build") {
       steps {
-        sh "docker build -t lwgregory/java_calculator:${BUILD_TIMESTAMP}"
+        sh "docker build -t lwgregory/java_calculator:${BUILD_TIMESTAMP}" .
       }
     }
 
