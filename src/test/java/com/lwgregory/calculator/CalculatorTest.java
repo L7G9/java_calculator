@@ -4,6 +4,9 @@ import static org.junit.Assert.assertEquals;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+/**
+ * Unit tests for Calculator class
+ */
 @SpringBootTest
 public class CalculatorTest {
 
