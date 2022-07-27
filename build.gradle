@@ -3,6 +3,7 @@ plugins {
 	id 'io.spring.dependency-management' version '1.0.12.RELEASE'
 	id 'java'
 	id 'jacoco'
+	id 'checkstyle'
 }
 
 group = 'com.lwgregory'
@@ -32,3 +33,7 @@ jacocoTestCoverageVerification {
           } 
      } 
 } 
+
+checkstyle {
+	checkstyleTest.enabled = false
+}
