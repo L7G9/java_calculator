@@ -22,13 +22,13 @@ pipeline {
         publishHTML (target: [
           reportDir: 'build/reports/jacoco/test/html',
           reportFiles: 'index.html',
-          reportNames: 'JaCoCo Report'
+          reportName: 'JaCoCo Report'
         ])
         sh "./gradlew jacocoTestCoverageVerification"
       }
     }
 
-    stage("Statis code analysis") {
+    stage("Static code analysis") {
       steps {
         sh "echo to be implemented"
       }
