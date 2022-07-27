@@ -1,4 +1,3 @@
-
 pipeline {
   agent any
 
@@ -33,7 +32,7 @@ pipeline {
         sh "./gradlew checkstyleMain"
         publishHTML (target: [
           reportDir: 'build/reports/checkstyle',
-          reportFiles: 'Main.html',
+          reportFiles: 'main.html',
           reportName: "Checkstyle Report"
         ])
       }

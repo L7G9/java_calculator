@@ -37,6 +37,7 @@ jacocoTestCoverageVerification {
 checkstyle {
 	toolVersion '7.8.1'
 	configFile file("config/checkstyle/checkstyle.xml")
+	ignoreFailures = true	
 }
 
 checkstyleMain {
@@ -46,3 +47,4 @@ checkstyleMain {
 checkstyleTest {
 	source = 'src/test/java'
 }
+
