@@ -40,13 +40,13 @@ pipeline {
 
     stage("Build") {
       steps {
-        sh "echo to be implemented"
+        sh "./gradlew build"
       }
     }
 
     stage("Docker build") {
       steps {
-        sh "echo to be implemented"
+        sh "docker build -t lwgregory/java_calculator:${BUILD_TIMESTAMP}"
       }
     }
 
