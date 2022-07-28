@@ -77,6 +77,7 @@ pipeline {
 
     stage("Deploy to staging") {
       steps {
+        sh "kubectl config view --flatten=true"
         sh "kubectl config use-context staging"
         sh "kubectl apply -f calculator.yaml"
       }
