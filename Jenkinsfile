@@ -1,4 +1,11 @@
 pipeline {
+
+  environment {
+    registry = "lwgregory/java_calculator"
+    registryCredential = 'DockerHub'
+    dockerImage = ''
+  }
+
   agent any
 
   stages {
@@ -46,13 +53,19 @@ pipeline {
 
     stage("Docker build") {
       steps {
-        sh "docker build -t lwgregory/java_calculator:${BUILD_TIMESTAMP} ."
+        script {
+          dockerImage = docker.build registry + ":${BUILD_TIMESTAMP}"
+        }
       }
     }
 
     stage("Docker push") {
       steps {
-        sh "echo to be implemented"
+        script {
+          docker.withRegistry('', registryCredential) {
+            dockerImage.push()
+          }
+        }
       }
     }
 
