@@ -77,7 +77,8 @@ pipeline {
 
     stage("Deploy to staging") {
       steps {
-        sh "echo to be implemented"
+        sh "kubectl config use-context staging"
+        sh "kubectl apply -f calculator.yaml"
       }
     }
 
