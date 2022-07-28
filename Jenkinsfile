@@ -71,7 +71,7 @@ pipeline {
 
     stage("Update version") {
       steps {
-        sh "echo to be implemented"
+        sh "sed -i 's/{{VERSION}}/${BUILD_TIMESTAMP}/g' calculator.yaml"
       }
     }
 
