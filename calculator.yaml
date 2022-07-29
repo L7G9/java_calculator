@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: calculator
-        image: lwgregory/java_calculator:2022-07-29-0703
+        image: lwgregory/java_calculator:{{VERSION}}
         imagePullPolicy: Always
         ports:
         - containerPort: 8080

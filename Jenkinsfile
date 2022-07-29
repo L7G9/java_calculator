@@ -78,7 +78,7 @@ pipeline {
     stage("Deploy to staging") {
       steps {
         sh "kubectl config use-context --kubeconfig .kube/config staging"
-        sh "kubectl apply --kubeconfig .kube/config -f calculator.yaml{{VERSION}}"
+        sh "kubectl apply --kubeconfig .kube/config -f calculator.yaml"
       }
     }
 
