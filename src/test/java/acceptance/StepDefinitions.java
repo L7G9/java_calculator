@@ -9,7 +9,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.io.*;
 
-//**
+/**
  Steps definitions for calculator.feature
 */
 public class StepDefinitions {
