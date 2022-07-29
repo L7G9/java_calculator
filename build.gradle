@@ -18,6 +18,9 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'junit:junit:4.12'
+
+	testImplementation("io.cucumber:cucumber-java:4.2.6")
+	testImplementation("io.cucumber:cucumber-junit:4.2.6")
 }
 
 tasks.named('test') {
@@ -41,4 +44,13 @@ checkstyle {
 
 checkstyleMain {
 	source = 'src/main/java'
+}
+
+task acceptanceTest(type: Test) {
+	include '**/acceptance/**'
+	systemProperties System.getProperties()
+}
+
+test {
+	exclude '**/acceptance/**'
 }
