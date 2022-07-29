@@ -84,7 +84,8 @@ pipeline {
 
     stage("Acceptance test") {
       steps {
-        sh "echo to be implemented"
+        sleep 60
+        sh "chmod +x acceptance-test.sh && ./acceptance-test.sh"
       }
     }
 
