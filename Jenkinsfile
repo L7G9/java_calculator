@@ -9,6 +9,7 @@ pipeline {
     CLUSTER_NAME = 'staging'
     LOCATION = 'us-central1-a'
     CREDENTIALS_ID = 'java-calculator'
+    SERVICE_ACCOUNT = 'jenkins@java-calculator-357920.iam.gserviceaccount.com'
   }
 
   agent any
@@ -98,7 +99,8 @@ pipeline {
     stage("Acceptance test") {
       steps {
         sleep 60
-        //sh "gcloud container clusters get-credentials staging"
+        sh gcloud auth activate-service-account SERVICE_ACCOUNT --key-file=CREDENTIALS_ID --project=PROJECT_ID
+        sh "gcloud container clusters get-credentials staging"
         sh "chmod +x acceptance-test.sh && ./acceptance-test.sh"
       }
     }
