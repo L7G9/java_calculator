@@ -98,7 +98,7 @@ pipeline {
     stage("Acceptance test") {
       steps {
         sleep 60
-        sh "gcloud container clusters get-credentials staging"
+        //sh "gcloud container clusters get-credentials staging"
         sh "chmod +x acceptance-test.sh && ./acceptance-test.sh"
       }
     }
