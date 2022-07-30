@@ -90,12 +90,15 @@ pipeline {
         manifestPattern: 'calculator.yaml',
         credentialsId: env.CREDENTIALS_ID,
         verifyDeployments: true])
+        sh "gcloud config set project java-calculator-357920"
       }
+
     }
 
     stage("Acceptance test") {
       steps {
         sleep 60
+        sh "gcloud container clusters get-credentials staging"
         sh "chmod +x acceptance-test.sh && ./acceptance-test.sh"
       }
     }
