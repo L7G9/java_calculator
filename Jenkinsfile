@@ -4,6 +4,11 @@ pipeline {
     registry = "lwgregory/java_calculator"
     registryCredential = 'DockerHub'
     dockerImage = ''
+
+    PROJECT_ID = 'continuous-delevery-931'
+    CLUSTER_NAME = 'calculator-staging'
+    LOCATION = 'us-central1-a'
+    CREDENTIALS_ID = 'continuous-delevery-931'
   }
 
   agent any
@@ -77,8 +82,14 @@ pipeline {
 
     stage("Deploy to staging") {
       steps {
-        sh "kubectl config use-context --kubeconfig .kube/config staging"
-        sh "kubectl apply --kubeconfig .kube/config -f calculator.yaml"
+        step({
+        $class: 'KubernetesEngineBuilder',
+        projectId: env.PROJECT_ID,
+        clusterName: env.CLUSTER_NAME,
+        location: env.LOCATION,
+        manifestPattern: 'calculator.yaml',
+        credentialsId: env.CREDENTIALS_ID,
+        verifyDeployments: true})
       }
     }
 
