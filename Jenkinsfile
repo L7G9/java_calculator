@@ -82,14 +82,14 @@ pipeline {
 
     stage("Deploy to staging") {
       steps {
-        step({
+        step([
         $class: 'KubernetesEngineBuilder',
         projectId: env.PROJECT_ID,
         clusterName: env.CLUSTER_NAME,
         location: env.LOCATION,
         manifestPattern: 'calculator.yaml',
         credentialsId: env.CREDENTIALS_ID,
-        verifyDeployments: true})
+        verifyDeployments: true])
       }
     }
 
