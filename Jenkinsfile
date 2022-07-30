@@ -5,10 +5,10 @@ pipeline {
     registryCredential = 'DockerHub'
     dockerImage = ''
 
-    PROJECT_ID = 'continuous-delevery-931'
+    PROJECT_ID = 'continuous-delivery-931'
     CLUSTER_NAME = 'calculator-staging'
     LOCATION = 'us-central1-a'
-    CREDENTIALS_ID = 'continuous-delevery-931'
+    CREDENTIALS_ID = 'continuous-delivery-931'
   }
 
   agent any
