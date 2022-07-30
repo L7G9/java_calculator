@@ -99,7 +99,7 @@ pipeline {
     stage("Acceptance test") {
       steps {
         sleep 60
-        sh gcloud auth activate-service-account SERVICE_ACCOUNT --key-file=CREDENTIALS_ID --project=PROJECT_ID
+        sh "gcloud auth activate-service-account $SERVICE_ACCOUNT --key-file=$CREDENTIALS_ID --project=$PROJECT_ID"
         sh "gcloud container clusters get-credentials staging"
         sh "chmod +x acceptance-test.sh && ./acceptance-test.sh"
       }
