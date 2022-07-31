@@ -1,16 +1,16 @@
 pipeline {
 
   environment {
-    registry = "lwgregory/java_calculator"
-    registryCredential = 'DockerHub'
-    dockerImage = ''
+    DH_REGISTRY = "lwgregory/java_calculator"
+    DH_CREDENTIAL = 'DockerHub'
+    DOCKER_IMAGE = ''
 
-    PROJECT_ID = 'java-calculator-357920'
-    STAGING_CLUSTER_NAME = 'staging'
-    PRODUCTION_CLUSTER_NAME = 'production'
-    LOCATION = 'us-central1-a'
-    CREDENTIALS_ID = 'java-calculator'
-    SERVICE_ACCOUNT = 'jenkins@java-calculator-357920.iam.gserviceaccount.com'
+    GKE_PROJECT_ID = 'java-calculator-357920'
+    GKE_STAGING_CLUSTER_NAME = 'staging'
+    GKE_PRODUCTION_CLUSTER_NAME = 'production'
+    GKE_LOCATION = 'us-central1-a'
+    GKE_CREDENTIALS_ID = 'java-calculator'
+    GKE_SERVICE_ACCOUNT = 'jenkins@java-calculator-357920.iam.gserviceaccount.com'
   }
 
   agent any
@@ -61,7 +61,7 @@ pipeline {
     stage("Docker build") {
       steps {
         script {
-          dockerImage = docker.build registry + ":${BUILD_TIMESTAMP}"
+          DOCKER_IMAGE = docker.build DH_REGISTRY + ":${BUILD_TIMESTAMP}"
         }
       }
     }
@@ -69,8 +69,8 @@ pipeline {
     stage("Docker push") {
       steps {
         script {
-          docker.withRegistry('', registryCredential) {
-            dockerImage.push()
+          docker.withRegistry('', DH_CREDENTIAL) {
+            DOCKER_IMAGE.push()
           }
         }
       }
@@ -86,11 +86,11 @@ pipeline {
       steps {
         step([
         $class: 'KubernetesEngineBuilder',
-        projectId: env.PROJECT_ID,
-        clusterName: env.STAGING_CLUSTER_NAME,
-        location: env.LOCATION,
+        projectId: env.GKE_PROJECT_ID,
+        clusterName: env.GKE_STAGING_CLUSTER_NAME,
+        location: env.GKE_LOCATION,
         manifestPattern: 'calculator.yaml',
-        credentialsId: env.CREDENTIALS_ID,
+        credentialsId: env.GKE_CREDENTIALS_ID,
         verifyDeployments: true])
       }
     }
@@ -99,10 +99,10 @@ pipeline {
       steps {
         sleep 60
 
-        sh "gcloud config set project ${PROJECT_ID}"        
+        sh "gcloud config set project ${GKE_PROJECT_ID}"        
         withCredentials([file(credentialsId: 'key-gcloud-sa', variable: 'GC_KEY')]) {
           sh("gcloud auth activate-service-account --key-file=${GC_KEY}")
-          sh("gcloud container clusters get-credentials ${STAGING_CLUSTER_NAME} --zone ${LOCATION} --project ${PROJECT_ID}")
+          sh("gcloud container clusters get-credentials ${GKE_STAGING_CLUSTER_NAME} --zone ${GKE_LOCATION} --project ${GKE_PROJECT_ID}")
         }
 
         sh "chmod +x acceptance-test.sh && ./acceptance-test.sh"
@@ -115,27 +115,25 @@ pipeline {
       steps {
         step([
         $class: 'KubernetesEngineBuilder',
-        projectId: env.PROJECT_ID,
-        clusterName: env.PRODUCTION_CLUSTER_NAME,
-        location: env.LOCATION,
+        projectId: env.GKE_PROJECT_ID,
+        clusterName: env.GKE_PRODUCTION_CLUSTER_NAME,
+        location: env.GKE_LOCATION,
         manifestPattern: 'calculator.yaml',
-        credentialsId: env.CREDENTIALS_ID,
+        credentialsId: env.GKE_CREDENTIALS_ID,
         verifyDeployments: true])
       }
     }
-
 
     stage("Smoke test") {
       steps {
 	sleep 60
 
         withCredentials([file(credentialsId: 'key-gcloud-sa', variable: 'GC_KEY')]) {
-          sh("gcloud container clusters get-credentials ${PRODUCTION_CLUSTER_NAME} --zone ${LOCATION} --project ${PROJECT_ID}")
+          sh("gcloud container clusters get-credentials ${GKE_PRODUCTION_CLUSTER_NAME} --zone ${GKE_LOCATION} --project ${GKE_PROJECT_ID}")
         }
 
         sh "./acceptance-test.sh"
       }
     }
-
   }
 }
