@@ -133,7 +133,7 @@ pipeline {
           sh("gcloud container clusters get-credentials ${PRODUCTION_CLUSTER_NAME} --zone ${LOCATION} --project ${PROJECT_ID}")
         }
 
-        sh "cmod +x accepptance-test.sh && ./open-node-port.sh"
+        sh "chmod +x open-node-port.sh && ./open-node-port.sh"
 
         sh "./acceptance-test.sh"
       }
