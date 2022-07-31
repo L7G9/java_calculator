@@ -133,7 +133,7 @@ pipeline {
           sh("gcloud container clusters get-credentials ${PRODUCTION_CLUSTER_NAME} --zone ${LOCATION} --project ${PROJECT_ID}")
         }
 
-        sh "NODE_PORT=$(kubectl get svc calculator-service -o jsonpath='{.spec.ports[0].nodePort}')"
+        sh "NODE_PORT=\$(kubectl get svc calculator-service -o jsonpath='{.spec.ports[0].nodePort}')"
         sh "gcloud compute firewall-rules create test-node-port --allow tcp:${NODE_PORT}"
 
         sh "./acceptance-test.sh"
