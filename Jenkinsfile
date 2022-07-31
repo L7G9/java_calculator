@@ -102,7 +102,7 @@ pipeline {
         sh "gcloud config set project ${PROJECT_ID}"        
         withCredentials([file(credentialsId: 'key-gcloud-sa', variable: 'GC_KEY')]) {
           sh("gcloud auth activate-service-account --key-file=${GC_KEY}")
-          sh("gcloud container clusters get-credentials ${STANGING_CLUSTER_NAME} --zone ${LOCATION} --project ${PROJECT_ID}")
+          sh("gcloud container clusters get-credentials ${STAGING_CLUSTER_NAME} --zone ${LOCATION} --project ${PROJECT_ID}")
         }
 
         sh "chmod +x acceptance-test.sh && ./acceptance-test.sh"
