@@ -6,7 +6,8 @@ pipeline {
     dockerImage = ''
 
     PROJECT_ID = 'java-calculator-357920'
-    CLUSTER_NAME = 'staging'
+    STAGING_CLUSTER_NAME = 'staging'
+    PRODUCTION_CLUSTER_NAME = 'production'
     LOCATION = 'us-central1-a'
     CREDENTIALS_ID = 'java-calculator'
     SERVICE_ACCOUNT = 'jenkins@java-calculator-357920.iam.gserviceaccount.com'
@@ -86,23 +87,22 @@ pipeline {
         step([
         $class: 'KubernetesEngineBuilder',
         projectId: env.PROJECT_ID,
-        clusterName: env.CLUSTER_NAME,
+        clusterName: env.STAGING_CLUSTER_NAME,
         location: env.LOCATION,
         manifestPattern: 'calculator.yaml',
         credentialsId: env.CREDENTIALS_ID,
         verifyDeployments: true])
-        sh "gcloud config set project java-calculator-357920"
       }
-
     }
 
     stage("Acceptance test") {
       steps {
         sleep 60
-        
+
+        sh "gcloud config set project ${PROJECT_ID}"        
         withCredentials([file(credentialsId: 'key-gcloud-sa', variable: 'GC_KEY')]) {
           sh("gcloud auth activate-service-account --key-file=${GC_KEY}")
-          sh("gcloud container clusters get-credentials ${CLUSTER_NAME} --zone ${LOCATION} --project ${PROJECT_ID}")
+          sh("gcloud container clusters get-credentials ${STANGING_CLUSTER_NAME} --zone ${LOCATION} --project ${PROJECT_ID}")
         }
 
         sh "chmod +x acceptance-test.sh && ./acceptance-test.sh"
@@ -111,10 +111,32 @@ pipeline {
 
     // Nonfunctional testing
 
+    stage("Deploy to production") {
+      steps {
+        step([
+        $class: 'KubernetesEngineBuilder',
+        projectId: env.PROJECT_ID,
+        clusterName: env.PRODUCTION_CLUSTER_NAME,
+        location: env.LOCATION,
+        manifestPattern: 'calculator.yaml',
+        credentialsId: env.CREDENTIALS_ID,
+        verifyDeployments: true])
+      }
+    }
+
 
     stage("Smoke test") {
       steps {
-        sh "echo to be implemented"
+	sleep 60
+
+        withCredentials([file(credentialsId: 'key-gcloud-sa', variable: 'GC_KEY')]) {
+          sh("gcloud container clusters get-credentials ${PRODUCTION_CLUSTER_NAME} --zone ${LOCATION} --project ${PROJECT_ID}")
+        }
+
+        sh "NODE_PORT=$(kubectl get svc calculator-service -o jsonpath='{.spec.ports[0].nodePort}')"
+        sh "gcloud compute firewall-rules create test-node-port --allow tcp:${NODE_PORT}"
+
+        sh "./acceptance-test.sh"
       }
     }
 
