@@ -110,7 +110,12 @@ pipeline {
     }
 
     // Nonfunctional testing
-
+    stage("Performance test") {
+      steps {
+        sh "chmod +x performance-test.sh"
+        sh "chmod +x calcaulator-performace-test.sh && ./calculator-performace-test.sh"
+      }
+    }
 
     stage("Deploy to production") {
       steps {
