@@ -14,4 +14,4 @@ NODE_IP=$(kubectl get nodes -o jsonpath='{ $.items[0].status.addresses[?(@.type=
 NODE_PORT=$(kubectl get svc calculator-service -o jsonpath='{.spec.ports[0].nodePort}')
 TEST_COMMAND="curl 'http://${NODE_IP}:${NODE_PORT}/sum?a=2&b=3'"
 
-sh perfromance-test.sh $TEST_COMMAND 100 1
+sh performance-test.sh $TEST_COMMAND 100 1
