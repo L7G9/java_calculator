@@ -26,5 +26,8 @@ end_time=$(date +%s)
 #check for failure
 duration="$((end_time-start_time))"
 if((duration>MAX_DURATION)); then
-    exit 1
+	echo 'performance test failed'
+	exit 1
 fi
+
+echo 'performance test passed'
