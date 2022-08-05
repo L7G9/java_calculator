@@ -113,7 +113,7 @@ pipeline {
     stage("Performance test") {
       steps {
         sh "chmod +x performance-test.sh"
-        sh "chmod +x calcaulator-performace-test.sh && ./calculator-performace-test.sh"
+        sh "chmod +x calculator-performace-test.sh && ./calculator-performace-test.sh"
       }
     }
 
