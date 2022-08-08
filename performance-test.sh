@@ -18,7 +18,7 @@ MAX_DURATION="$((CALLS*MAX_AVERAGE_TIME))" # max total duration in seconds test 
 
 #run tests
 start_time=$(date +%s)
-for((i=0;i<CALLS;i++));do
+for((i=0;i<$CALLS;i++)); do
 	eval "$TEST_COMMAND"
 done
 end_time=$(date +%s)
