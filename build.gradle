@@ -1,9 +1,16 @@
+buildscript {
+	dependencies {
+		classpath('com.h2database:h2:2.1.214')
+	}
+}
+
 plugins {
 	id 'org.springframework.boot' version '2.7.2'
 	id 'io.spring.dependency-management' version '1.0.12.RELEASE'
 	id 'java'
 	id 'jacoco'
 	id 'checkstyle'
+	id 'org.flywaydb.flyway' version '9.1.2'
 }
 
 group = 'com.lwgregory'
@@ -53,4 +60,9 @@ task acceptanceTest(type: Test) {
 
 test {
 	exclude '**/acceptance/**'
+}
+
+flyway {
+	url = 'jdbc:h2:file:/tmp/calculator'
+	user = 'sa'
 }
