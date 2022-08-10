@@ -12,9 +12,14 @@ class CalculatorController {
 	@Autowired
 	private Calculator calculator;
 
+	@Autowired
+	private CalculationRepository calculationRepository;
+
 	@RequestMapping("/sum")
 	String sum(@RequestParam("a") Integer a,
 		   @RequestParam("b") Integer b) {
-		return String.valueOf(calculator.sum(a, b));
+		String result = String.valueOf(calculator.sum(a, b));
+		calculationRepository.save(new Calculation(a.toString(), b.toString(), result));
+		return result;
 	}
 }
