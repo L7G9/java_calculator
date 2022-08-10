@@ -10,7 +10,7 @@ import javax.persistence.Id;
  */
 @Entity
 public class Calculation {
-	@id
+	@Id
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
 	private Integer id;
 	private String a;
