@@ -56,6 +56,7 @@ pipeline {
       steps {
         sh "./gradlew build"
 	sh "./gradlew flywayMigrate -i"
+	sh "ls -la /tmp"
       }
     }
 
