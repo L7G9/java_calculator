@@ -23,13 +23,13 @@ pipeline {
 
     stage("Compile") {
       steps {
-        gradleCompile
+        gradleCompile()
       }
     }
 
     stage("Unit test") {
       steps {
-        gradleUnitTest
+        gradleUnitTest()
       }
     }
 
@@ -58,7 +58,7 @@ pipeline {
 
     stage("Build") {
       steps {
-        gradleBuild
+        gradleBuild()
       }
     }
 
