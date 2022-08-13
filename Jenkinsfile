@@ -1,3 +1,7 @@
+libraryies {
+  lib('gradle')
+}
+
 pipeline {
 
   environment {
