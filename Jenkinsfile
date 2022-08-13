@@ -1,3 +1,5 @@
+@Library('gradle') _
+
 pipeline {
 
   environment {
