@@ -1,4 +1,4 @@
-libraryies {
+libraries {
   lib('gradle')
 }
 
