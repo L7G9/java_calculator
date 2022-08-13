@@ -19,13 +19,13 @@ pipeline {
 
     stage("Compile") {
       steps {
-        sh "./gradlew compileJava"
+        gradleCompile
       }
     }
 
     stage("Unit test") {
       steps {
-        sh "./gradlew test"
+        gradleUnitTest
       }
     }
 
@@ -54,7 +54,7 @@ pipeline {
 
     stage("Build") {
       steps {
-        sh "./gradlew build"
+        gradleBuild
       }
     }
 
