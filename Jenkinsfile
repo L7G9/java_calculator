@@ -1,7 +1,3 @@
-libraries {
-  lib('gradle')
-}
-
 pipeline {
 
   environment {
