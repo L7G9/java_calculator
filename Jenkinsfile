@@ -1,4 +1,4 @@
-ipeline {
+pipeline {
 
   environment {
     DH_REGISTRY = "lwgregory/java_calculator"
