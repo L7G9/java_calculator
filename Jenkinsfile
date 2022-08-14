@@ -1,6 +1,4 @@
-@Library('gradle') _
-
-pipeline {
+ipeline {
 
   environment {
     DH_REGISTRY = "lwgregory/java_calculator"
@@ -18,16 +16,21 @@ pipeline {
   agent any
 
   stages {
+    stage("Test Library") {
+      steps {
+        sayHello "Tenma"
+      }
+    }
 
     stage("Compile") {
       steps {
-        gradleCompile()
+        sh "./gradlew compileJava"
       }
     }
 
     stage("Unit test") {
       steps {
-        gradleUnitTest()
+        sh "./gradlew test"
       }
     }
 
@@ -56,7 +59,7 @@ pipeline {
 
     stage("Build") {
       steps {
-        gradleBuild()
+        sh "./gradlew build"
       }
     }
 
