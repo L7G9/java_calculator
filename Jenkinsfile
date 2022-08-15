@@ -16,11 +16,6 @@ pipeline {
   agent any
 
   stages {
-    stage("Test Library") {
-      steps {
-        sayHello "Tenma"
-      }
-    }
 
     stage("Compile") {
       steps {
@@ -59,7 +54,7 @@ pipeline {
 
     stage("Build") {
       steps {
-        sh "./gradlew build"
+        gradleBuild()
       }
     }
 
