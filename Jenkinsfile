@@ -112,8 +112,7 @@ pipeline {
     // Nonfunctional testing
     stage("Performance test") {
       steps {
-        sh "chmod +x performance-test.sh"
-        sh "chmod +x calculator-performance-test.sh && ./calculator-performance-test.sh"
+	sh "./gradlew jmRun"
       }
     }
 
