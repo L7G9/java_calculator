@@ -113,6 +113,7 @@ pipeline {
     stage("Performance test") {
       steps {
 	sh "./gradlew jmRun"
+	prefReport 'build/jmeter-report/*.csv'
       }
     }
 
