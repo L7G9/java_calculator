@@ -17,6 +17,8 @@ The pipline has the following stages...
 - Smoke test
 
 ## Usage
+Note this project is not setup to run as is, the setup of a Google Cloud Platform project and configuration of the firewall would be required.  
+
 Add following credentials to Jenkins...
 - GitHub
 - DockerHub
